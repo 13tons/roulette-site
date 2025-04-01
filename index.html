@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Рулетка Онлайн</title>
+    <style>
+        body { text-align: center; font-family: Arial, sans-serif; }
+        .wheel { width: 200px; height: 200px; border-radius: 50%; border: 5px solid black; margin: 20px auto; }
+        .button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>🎰 Онлайн Рулетка</h1>
+    <p>💰 Баланс: <span id="balance">1000</span> фишек</p>
+    <div class="wheel" id="wheel" style="background: red;"></div>
+    <p>Ставка: <input type="number" id="betAmount" value="100"></p>
+    <button class="button" onclick="placeBet('red')">Ставка на Красное</button>
+    <button class="button" onclick="placeBet('black')">Ставка на Чёрное</button>
+    <p id="result"></p>
+    
+    <script>
+        let balance = 1000;
+        function placeBet(color) {
+            let betAmount = parseInt(document.getElementById("betAmount").value);
+            if (betAmount > balance || betAmount <= 0) {
+                document.getElementById("result").innerText = "Недостаточно фишек!";
+                return;
+            }
+            balance -= betAmount;
+            document.getElementById("balance").innerText = balance;
+            
+            let winningColor = Math.random() < 0.5 ? "red" : "black";
+            document.getElementById("wheel").style.background = winningColor;
+            
+            if (winningColor === color) {
+                balance += betAmount * 2;
+                document.getElementById("result").innerText = `🎉 Вы выиграли! Новый баланс: ${balance} фишек`;
+            } else {
+                document.getElementById("result").innerText = `😞 Проигрыш. Новый баланс: ${balance} фишек`;
+            }
+            document.getElementById("balance").innerText = balance;
+        }
+    </script>
+</body>
+</html>
